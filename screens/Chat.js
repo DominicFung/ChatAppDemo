@@ -38,7 +38,10 @@ export default class Chat extends Component {
        console.log('pressed!: ' + this.state.chatText)
        if (this.state.connected){
            this.setState(prevState => ({ open: !prevState}))
-           this.socket.send(this.state.chatText);
+           this.socket.send(
+                JSON.stringify({ name: this.props.name, message: this.state.chatText })
+            );
+            
        }
 
        this._textInput.setNativeProps({ text: '' });
