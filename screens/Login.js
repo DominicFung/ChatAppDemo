@@ -11,7 +11,10 @@ export default class Login extends Component {
   constructor(props){
     super(props);
 
-    this._username = '<anonymous>';
+    this.state = {
+        _username: '<anonymous>',
+        _password: ""
+    };
   }
 
   render() {
@@ -28,10 +31,10 @@ export default class Login extends Component {
                 <StatusBar barStyle="light-content" />
                 <TextInput placeholder="email" placeholderTextColor="rgba(49,180,180,0.7)" style={styles.input} returnKeyType="next"
                     onSubmitEditing={() => this.passwordInput.focus()} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} 
-                    ref={(input) => this._username = input} underlineColorAndroid='transparent'/>
+                    onChangeText={(_username) => this.setState({_username})} underlineColorAndroid='transparent'/>
                 <TextInput placeholder="password" placeholderTextColor="rgba(49,180,180,0.7)" style={styles.input} returnKeyType="go" secureTextEntry
-                    ref={(input) => this._password = input} underlineColorAndroid='transparent'/>
-                <TouchableOpacity style={styles.buttonContainer} onPress={() => navigate('Chat', {name: this._username})}>
+                    onChangeText={(_password) => this.setState({_password})} underlineColorAndroid='transparent'/>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => navigate('Chat', {sender: this.state._username})}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
             </View>

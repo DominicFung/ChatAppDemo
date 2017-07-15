@@ -20,6 +20,8 @@ export default class Chat extends Component {
            chatData: ["hello"]
         };
 
+        console.log("$$$$$$$: " + safeJsonStringify(this.props.navigation.state.params.sender));
+
         this.socket = new WebSocket("ws://192.168.5.117:3000/");
         this.socket.onopen = () => {
            this.setState({connected: true});
@@ -39,7 +41,7 @@ export default class Chat extends Component {
        if (this.state.connected){
            this.setState(prevState => ({ open: !prevState}))
            this.socket.send(
-                JSON.stringify({ name: this.props.name, message: this.state.chatText })
+                JSON.stringify({ name: this.props.navigation.state.params.sender, message: this.state.chatText })
             );
             
        }
@@ -49,6 +51,7 @@ export default class Chat extends Component {
     }
 
     render() {
+
         return (
             <View style={{flex: 1}}>
                 <Text style={{paddingTop: 20}}>
