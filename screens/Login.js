@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, KeyboardAvoidingView, StatusBar } from 'react-native';
 import navigation from 'react-navigation';
 
+import "../config/router";
+
 export default class Login extends Component {
 
   static navigationOptions = {
@@ -17,10 +19,13 @@ export default class Login extends Component {
     };
   }
 
+  AuthenticateUser(){
+    //fetch(global._IP_+":"+global._exPort+"/login");
+
+    this.props.navigation.navigate('Chat', {sender: this.state._username});
+  };
+
   render() {
-
-    const { navigate } = this.props.navigation;
-
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <View style={styles.logoContainer}>
@@ -33,8 +38,8 @@ export default class Login extends Component {
                     onSubmitEditing={() => this.passwordInput.focus()} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} 
                     onChangeText={(_username) => this.setState({_username})} underlineColorAndroid='transparent'/>
                 <TextInput placeholder="password" placeholderTextColor="rgba(49,180,180,0.7)" style={styles.input} returnKeyType="go" secureTextEntry
-                    onChangeText={(_password) => this.setState({_password})} underlineColorAndroid='transparent'/>
-                <TouchableOpacity style={styles.buttonContainer} onPress={() => navigate('Chat', {sender: this.state._username})}>
+                    ref={(passRef) => {this.passwordInput = passRef}} onChangeText={(_password) => this.setState({_password})} underlineColorAndroid='transparent'/>
+                <TouchableOpacity style={styles.buttonContainer} onPress={this.AuthenticateUser.bind(this)}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
             </View>

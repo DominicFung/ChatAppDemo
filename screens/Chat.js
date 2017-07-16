@@ -4,6 +4,12 @@ import { AppRegistry, StyleSheet, Text, View, TextInput,
     KeyboardAvoidingView, FlatList, ScrollView } from 'react-native';
 import { List, ListItem } from "react-native-elements";
 
+import "../config/router"; //for global
+
+const _IP_ = "192.168.5.117";
+const _wsPort = "3000";
+const _exPort = "3001";
+
 export default class Chat extends Component {
 
     static navigationOptions = {
@@ -22,7 +28,7 @@ export default class Chat extends Component {
 
         console.log("$$$$$$$: " + safeJsonStringify(this.props.navigation.state.params.sender));
 
-        this.socket = new WebSocket("ws://192.168.5.117:3000/");
+        this.socket = new WebSocket("ws://"+global._IP_+":"+global._wsPort+"/");
         this.socket.onopen = () => {
            this.setState({connected: true});
            console.log('connected');
