@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, KeyboardAvoidingView, StatusBar } from 'react-native';
 import navigation from 'react-navigation';
+import axios from 'axios';
 
 import "../config/router";
 
@@ -21,6 +22,18 @@ export default class Login extends Component {
 
   AuthenticateUser(){
     //fetch(global._IP_+":"+global._exPort+"/login");
+
+    axios({
+        method: 'post',
+        baseURL: "http://"+global._IP_+":"+global._exPort,
+        url: '/login',
+        data: {
+            username: this.state._username,
+            password: this.state._password
+        }
+    }).then(function(res){
+        console.log(JSON.stringify(res.data));
+    });
 
     this.props.navigation.navigate('Chat', {sender: this.state._username});
   };
