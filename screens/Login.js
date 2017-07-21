@@ -21,21 +21,27 @@ export default class Login extends Component {
   }
 
   AuthenticateUser(){
-    //fetch(global._IP_+":"+global._exPort+"/login");
+
+    var a = this.props.navigation;
 
     axios({
         method: 'post',
         baseURL: "http://"+global._IP_+":"+global._exPort,
         url: '/login',
         data: {
-            username: this.state._username,
+            email: this.state._username,
             password: this.state._password
         }
     }).then(function(res){
         console.log(JSON.stringify(res.data));
-    });
 
-    this.props.navigation.navigate('Chat', {sender: this.state._username});
+        if(res.data.loginStatus === 1){
+            console.log("username is "+res.data.username);
+            a.navigate('Chat', {sender: res.data.username});
+        } else {
+            console.log("no validation");
+        }
+    });
   };
 
   render() {
