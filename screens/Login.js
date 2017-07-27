@@ -37,7 +37,7 @@ export default class Login extends Component {
 
         if(res.data.loginStatus === 1){
             console.log("username is "+res.data.username);
-            a.navigate('Chat', {sender: res.data.username});
+            a.navigate('Chat', {sender: res.data.username, history: res.data.chatHist});
         } else {
             console.log("no validation");
         }

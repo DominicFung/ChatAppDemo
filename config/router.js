@@ -9,7 +9,7 @@ export const AppStack = StackNavigator({
   Chat: { screen: Chat},
 }, { headerMode: 'none' });
 
-//global._IP_ = "192.168.5.117";
-global._IP_ = "192.168.0.18";
+global._IP_ = "192.168.5.117";
+//global._IP_ = "192.168.0.18";
 global._wsPort = "3000";
 global._exPort = "3001";

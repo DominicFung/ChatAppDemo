@@ -16,6 +16,8 @@ export default class Chat extends Component {
         title: 'Chat',
     };
 
+    _keyExtractor = (item, index) => item._id;
+
     constructor(props){
         super(props);
 
@@ -23,7 +25,7 @@ export default class Chat extends Component {
            open: false,
            connected: false,
            chatText: '',
-           chatData: ["hello"]
+           chatData: props.navigation.state.params.history
         };
 
         console.log("$$$$$$$: " + safeJsonStringify(this.props.navigation.state.params.sender));
@@ -37,7 +39,7 @@ export default class Chat extends Component {
         this.socket.onmessage = (e) => {
             console.log(e.data);
             this.setState({
-                chatData: this.state.chatData.concat([e.data])
+                chatData: this.state.chatData.concat([JSON.parse(e.data)])
             });
         }
     }
@@ -53,6 +55,7 @@ export default class Chat extends Component {
        }
 
        this._textInput.setNativeProps({ text: '' });
+       this.state.chatText = '';
        
     }
 
@@ -66,8 +69,9 @@ export default class Chat extends Component {
 
                 <FlatList
                     data={this.state.chatData}
+                    keyExtractor={this._keyExtractor}
                     renderItem={({ item }) => (
-                        <Text>{ item }</Text>
+                        <Text>{ JSON.stringify(item) }</Text>
                     )}
                 />
 
