@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import safeJsonStringify from 'safe-json-stringify';
 import { AppRegistry, StyleSheet, Text, View, TextInput, 
-    KeyboardAvoidingView, FlatList, ScrollView } from 'react-native';
+    KeyboardAvoidingView, FlatList, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { List, ListItem } from "react-native-elements";
 
-import "../config/router"; //for global
+//scrollEnabled = false : allows clicking on any part of screen to escape keybaord
 
-const _IP_ = "192.168.5.117";
-const _wsPort = "3000";
-const _exPort = "3001";
+import "../config/settings"; //for global
+
+const window = Dimensions.get('window');
 
 export default class Chat extends Component {
 
@@ -76,14 +76,17 @@ export default class Chat extends Component {
                 />
 
                 <ScrollView scrollEnabled={false}>
-                <KeyboardAvoidingView behavior="padding" style={styles.aroundInput}>
-                    <TextInput ref={(inputRef) => { this._textInput = inputRef }}
-                    placeholder="Say something cool ..." placeholderTextColor="rgba(49,180,180,0.7)" 
-                    style={styles.input} returnKeyType="send" underlineColorAndroid='transparent'
-                    onChangeText={(chatText) => this.setState({chatText})} value={this.state.chatText} onSubmitEditing={this.emit.bind(this)}
-                    blurOnSubmit={false}
-                    />
-                </KeyboardAvoidingView>
+                    <KeyboardAvoidingView behavior="padding" style={styles.aroundInput}>
+                        <TextInput ref={(inputRef) => { this._textInput = inputRef }}
+                        placeholder="Say something cool ..." placeholderTextColor="rgba(49,180,180,0.7)" 
+                        style={styles.input} returnKeyType="send" underlineColorAndroid='transparent'
+                        onChangeText={(chatText) => this.setState({chatText})} value={this.state.chatText} onSubmitEditing={this.emit.bind(this)}
+                        blurOnSubmit={false}
+                        />
+                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Camera')} >
+                            <Text style={styles.buttonText}>Camera</Text>
+                        </TouchableOpacity>
+                    </KeyboardAvoidingView>
                 </ScrollView>
             </View>
         );
@@ -98,13 +101,26 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     input: {
+        flex: 1,
         borderColor: '#87dede',
         borderWidth: 0.5,
         borderRadius: 4,
         paddingHorizontal: 5
-        },
+    },
     aroundInput: {
         paddingHorizontal: 10,
-        paddingVertical: 5
-    }
+        paddingVertical: 5,
+        flexDirection: 'row',
+        width: window.width
+    },
+    buttonContainer: {
+        backgroundColor: '#87dede',
+        paddingVertical: 10,
+        borderRadius: 5
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: '#FFFFFF',
+        fontWeight: '700'
+    },
 });

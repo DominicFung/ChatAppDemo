@@ -3,13 +3,10 @@ import { StackNavigator } from 'react-navigation';
 
 import Login from '../screens/Login';
 import Chat from '../screens/Chat';
+import Camera from '../screens/Camera';
 
 export const AppStack = StackNavigator({
   Home: { screen: Login },
   Chat: { screen: Chat},
+  Camera: { screen: Camera }
 }, { headerMode: 'none' });
-
-global._IP_ = "192.168.5.117";
-//global._IP_ = "192.168.0.18";
-global._wsPort = "3000";
-global._exPort = "3001";

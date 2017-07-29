@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, KeyboardAvo
 import navigation from 'react-navigation';
 import axios from 'axios';
 
-import "../config/router";
+import "../config/settings"; //for global
 
 export default class Login extends Component {
 
