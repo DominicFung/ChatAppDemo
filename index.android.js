@@ -5,6 +5,7 @@
  */
 
 //adb logcat *:S ReactNative:V ReactNativeJS:V
+//react-native run-android
 
 import React, { Component } from 'react';
 import { AppRegistry, Text } from 'react-native';
