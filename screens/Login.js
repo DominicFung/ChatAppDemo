@@ -41,7 +41,7 @@ export default class Login extends Component {
         } else {
             console.log("no validation");
         }
-    });
+    }).catch(err => console.error(err));
   };
 
   render() {
