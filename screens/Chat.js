@@ -3,14 +3,16 @@ import safeJsonStringify from 'safe-json-stringify';
 import { AppRegistry, StyleSheet, Text, View, TextInput, 
     KeyboardAvoidingView, FlatList, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { List, ListItem } from "react-native-elements";
+import { connect } from 'react-redux';
 
 //scrollEnabled = false : allows clicking on any part of screen to escape keybaord
 
+import { setTextFromPic } from "../action/cameraActions";
 import "../config/settings"; //for global
 
 const window = Dimensions.get('window');
 
-export default class Chat extends Component {
+class Chat extends Component {
 
     static navigationOptions = {
         title: 'Chat',
@@ -24,7 +26,6 @@ export default class Chat extends Component {
         this.state = { 
            open: false,
            connected: false,
-           chatText: '',
            chatData: props.navigation.state.params.history
         };
 
@@ -45,17 +46,17 @@ export default class Chat extends Component {
     }
 
     emit(){
-       console.log('pressed!: ' + this.state.chatText)
+       console.log('pressed!: ' + this.props.info)
        if (this.state.connected){
            this.setState(prevState => ({ open: !prevState}))
            this.socket.send(
-                JSON.stringify({ name: this.props.navigation.state.params.sender, message: this.state.chatText })
+                JSON.stringify({ name: this.props.navigation.state.params.sender, message: this.props.info})
             );
             
        }
 
        this._textInput.setNativeProps({ text: '' });
-       this.state.chatText = '';
+       this.props.setText('');
        
     }
 
@@ -80,7 +81,7 @@ export default class Chat extends Component {
                         <TextInput ref={(inputRef) => { this._textInput = inputRef }}
                         placeholder="Say something cool ..." placeholderTextColor="rgba(49,180,180,0.7)" 
                         style={styles.input} returnKeyType="send" underlineColorAndroid='transparent'
-                        onChangeText={(chatText) => this.setState({chatText})} value={this.state.chatText} onSubmitEditing={this.emit.bind(this)}
+                        onChangeText={(chatText) => this.props.setText(chatText)} value={this.props.info} onSubmitEditing={this.emit.bind(this)}
                         blurOnSubmit={false}
                         />
                         <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Camera')} >
@@ -124,3 +125,14 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
 });
+
+export default connect((state) => {
+    console.log(state.TextFromPic);
+    return { info: state.TextFromPic }
+}, (dispatch)=> {
+    return{
+        setText: (text) => {
+            dispatch(setTextFromPic(text));
+        }
+    }
+})(Chat);
